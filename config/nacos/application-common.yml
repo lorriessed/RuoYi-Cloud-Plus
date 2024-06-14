@@ -88,8 +88,8 @@ spring:
   # redis通用配置 子服务可以自行配置进行覆盖
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: 123.56.105.55
+      port: 63799
       # 密码(如没有密码请注释掉)
       # password:
       database: 0

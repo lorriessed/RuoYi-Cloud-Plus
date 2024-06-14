@@ -20,12 +20,10 @@ spring:
       username: @nacos.username@
       password: @nacos.password@
       discovery:
-        # 注册组
         group: @nacos.discovery.group@
         namespace: ${spring.profiles.active}
       config:
-        # 配置组
-        group: @nacos.config.group@
+        group: nacos
         namespace: ${spring.profiles.active}
   config:
     import:

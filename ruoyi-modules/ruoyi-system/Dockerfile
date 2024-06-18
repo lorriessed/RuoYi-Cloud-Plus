@@ -1,7 +1,7 @@
 #FROM findepi/graalvm:java17-native
 FROM openjdk:17.0.2-oraclelinux8
 
-MAINTAINER Lion Li
+MAINTAINER yumiao
 
 RUN mkdir -p /ruoyi/system/logs \
     /ruoyi/system/temp \

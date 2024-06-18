@@ -366,7 +366,7 @@ services:
       JAVA_OPT_EXT: -server -Xms512M -Xmx512M -Xmn256m
     command: sh mqbroker --enable-proxy -c /home/rocketmq/rocketmq-5.2.0/conf/broker.conf
     depends_on:
-      - mqnamesrv
+      - rmqnamesrv
     volumes:
       - /docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-5.2.0/conf/broker.conf
       - /docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs

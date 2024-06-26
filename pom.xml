@@ -91,8 +91,8 @@
             <properties>
                 <profiles.active>prod</profiles.active>
                 <nacos.server>123.56.105.55:8848</nacos.server>
-                <nacos.discovery.group>DEFAULT_GROUP</nacos.discovery.group>
-                <nacos.config.group>DEFAULT_GROUP</nacos.config.group>
+                <nacos.discovery.group>nacos</nacos.discovery.group>
+                <nacos.config.group>nacos</nacos.config.group>
                 <nacos.username>nacos</nacos.username>
                 <nacos.password>nacos</nacos.password>
                 <logstash.address>127.0.0.1:4560</logstash.address>

@@ -23,7 +23,7 @@ spring:
         group: @nacos.discovery.group@
         namespace: ${spring.profiles.active}
       config:
-        group: nacos
+        group: @nacos.config.group@
         namespace: ${spring.profiles.active}
   config:
     import:

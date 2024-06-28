@@ -21,10 +21,10 @@ spring:
       password: @nacos.password@
       discovery:
         group: @nacos.discovery.group@
-        namespace: ${spring.profiles.active}
+        namespace: prod
       config:
         group: @nacos.config.group@
-        namespace: ${spring.profiles.active}
+        namespace: prod
   config:
     import:
       - optional:nacos:application-common.yml

@@ -1,0 +1,32 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="docker[nacos, minio, mysql, nginx-web, redis, ruoyi-auth, ruoyi-gateway, ruoyi-gen, ruoyi-job, ruoyi-monitor, ruoyi-resource, ruoyi-snailjob-server, ruoyi-system, ruoyi-workflow, seata-server, sentinel]: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="docker-desktop-linux">
+    <deployment type="docker-compose.yml">
+      <settings>
+        <option name="envFilePath" value="" />
+        <option name="services">
+          <list>
+            <option value="nacos" />
+            <option value="minio" />
+            <option value="mysql" />
+            <option value="nginx-web" />
+            <option value="redis" />
+            <option value="ruoyi-auth" />
+            <option value="ruoyi-gateway" />
+            <option value="ruoyi-gen" />
+            <option value="ruoyi-job" />
+            <option value="ruoyi-monitor" />
+            <option value="ruoyi-resource" />
+            <option value="ruoyi-snailjob-server" />
+            <option value="ruoyi-system" />
+            <option value="ruoyi-workflow" />
+            <option value="seata-server" />
+            <option value="sentinel" />
+          </list>
+        </option>
+        <option name="sourceFilePath" value="docker/docker-compose.yml" />
+        <option name="upDetach" value="false" />
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

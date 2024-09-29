@@ -10,12 +10,12 @@ services:
       # 初始化数据库
       MYSQL_DATABASE: ry-cloud
     ports:
-      - "33061:3306"
+      - "32061:3306"
     volumes:
       # 数据挂载
-      - /docker/mysql/data/:/var/lib/mysql/
+      - ./docker/mysql/data/:/var/lib/mysql/
       # 配置挂载
-      - /docker/mysql/conf/:/etc/mysql/conf.d/
+      - ./docker/mysql/conf/:/etc/mysql/conf.d/
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
       --default-authentication-plugin=mysql_native_password
@@ -23,8 +23,8 @@ services:
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
-#    privileged: trues
-    network_mode: "host"
+    privileged: true
+    network_mode: "microservices"
 
   nacos:
     image: nacos/nacos-server
@@ -38,10 +38,10 @@ services:
       JAVA_OPTS: "-Xms256m -Xmx512m"
     volumes:
       # 日志目录 注意集群模式下 日志目录不能一致 需要区分例如 nacos1 nacos2
-      - /docker/nacos/logs/:/root/nacos/logs
+      - ./nacos/logs/:/root/nacos/logs
       # 集群配置文件 集群所有nacos都必须使用此文件
-      - /docker/nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
-    network_mode: "host"
+      - ./nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
+    network_mode: "microservices"
 
   redis:
     image: redis:6.2.7
@@ -53,12 +53,12 @@ services:
       TZ: Asia/Shanghai
     volumes:
       # 配置文件
-      - /home/docker/docker/redis/conf:/redis/config
+      - ../redis/conf:/redis/config
       # 数据文件
       - /home/docker/docker/redis/data/:/redis/data/
     command: "redis-server /redis/config/redis.conf"
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 
   minio:
     image: minio/minio:RELEASE.2023-03-24T21-41-23Z
@@ -86,12 +86,12 @@ services:
       MINIO_COMPRESS_MIME_TYPES: ""
     volumes:
       # 映射当前目录下的data目录至容器内/data目录
-      - /home/docker/docker/minio/data:/data
+      - ~/home/docker/docker/minio/data:/data
       # 映射配置目录
       - /home/docker/docker/minio/config:/root/.minio/
     command: server --address ':9000' --console-address ':9001' /data  # 指定容器中的目录 /data
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 
   seata-server:
     image: ruoyi/ruoyi-seata-server:2.2.0
@@ -105,11 +105,11 @@ services:
       # SEATA_IP: 127.0.0.1
       SEATA_PORT: 8091
     volumes:
-      - /docker/ruoyi-seata-server/logs/:/ruoyi/seata-server/logs
+      - ./docker/ruoyi-seata-server/logs/:/ruoyi/seata-server/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 
   nginx-web:
     image: nginx:1.22.1
@@ -122,15 +122,15 @@ services:
       - "443:443"
     volumes:
       # 证书映射
-      - /home/docker/docker/nginx/cert:/etc/nginx/cert
+      - ./docker/nginx/cert:/etc/nginx/cert
       # 配置文件映射
-      - /home/docker/docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
       # 页面目录
-      - /home/docker/docker/nginx/html:/usr/share/nginx/html
+      - ./docker/nginx/html:/usr/share/nginx/html
       # 日志目录
-      - /home/docker/docker/nginx/log:/var/log/nginx
+      - ./docker/nginx/log:/var/log/nginx
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 
   sentinel:
     image: ruoyi/ruoyi-sentinel-dashboard:2.2.0
@@ -141,27 +141,27 @@ services:
       - "8718:8718"
     volumes:
       # 配置文件
-      - /docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
+      - ./docker/ruoyi-sentinel-dashboard/logs/:/ruoyi/sentinel-dashboard/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     restart: always
-    network_mode: "host"
+    network_mode: "microservices"
 
-  ruoyi-monitor:
-    image: ruoyi/ruoyi-monitor:2.2.0
-    container_name: Microservices-ruoyi-monitor
-    environment:
-      # 时区上海
-      TZ: Asia/Shanghai
-    ports:
-      - "9100:9100"
-    volumes:
-      # 配置文件
-      - /docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
-      # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
-    privileged: true
-    network_mode: "host"
+#  ruoyi-monitor:
+#    image: ruoyi/ruoyi-monitor:2.2.0
+#    container_name: Microservices-ruoyi-monitor
+#    environment:
+#      # 时区上海
+#      TZ: Asia/Shanghai
+#    ports:
+#      - "9100:9100"
+#    volumes:
+#      # 配置文件
+#      - ./docker/ruoyi-monitor/logs/:/ruoyi/monitor/logs
+#      # skywalking 探针
+#      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
+#    privileged: true
+#    network_mode: "microservices"
 
   ruoyi-snailjob-server:
     image: ruoyi/ruoyi-snailjob-server:2.2.0
@@ -173,9 +173,9 @@ services:
       - "8800:8800"
       - "1788:1788"
     volumes:
-      - /docker/snailjob/logs/:/ruoyi/snailjob/logs
+      - ./docker/snailjob/logs/:/ruoyi/snailjob/logs
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-gateway:
     image: ruoyi/ruoyi-gateway:2.2.0
@@ -187,11 +187,11 @@ services:
       - "8080:8080"
     volumes:
       # 配置文件
-      - /docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
+      - ./docker/ruoyi-gateway/logs/:/ruoyi/gateway/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-auth:
     image: ruoyi/ruoyi-auth:2.2.0
@@ -203,11 +203,11 @@ services:
       - "9210:9210"
     volumes:
       # 配置文件
-      - /docker/ruoyi-auth/logs/:/ruoyi/auth/logs
+      - ./docker/ruoyi-auth/logs/:/ruoyi/auth/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-system:
     image: ruoyi/ruoyi-system:2.2.0
@@ -219,11 +219,11 @@ services:
       - "9201:9201"
     volumes:
       # 配置文件
-      - /docker/ruoyi-system/logs/:/ruoyi/system/logs
+      - ./docker/ruoyi-system/logs/:/ruoyi/system/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-gen:
     image: ruoyi/ruoyi-gen:2.2.0
@@ -235,11 +235,11 @@ services:
       - "9202:9202"
     volumes:
       # 配置文件
-      - /docker/ruoyi-gen/logs/:/ruoyi/gen/logs
+      - ./docker/ruoyi-gen/logs/:/ruoyi/gen/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-job:
     image: ruoyi/ruoyi-job:2.2.0
@@ -251,11 +251,11 @@ services:
       - "9203:9203"
     volumes:
       # 配置文件
-      - /docker/ruoyi-job/logs/:/ruoyi/job/logs
+      - ./docker/ruoyi-job/logs/:/ruoyi/job/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-resource:
     image: ruoyi/ruoyi-resource:2.2.0
@@ -267,11 +267,11 @@ services:
       - "9204:9204"
     volumes:
       # 配置文件
-      - /docker/ruoyi-resource/logs/:/ruoyi/resource/logs
+      - ./docker/ruoyi-resource/logs/:/ruoyi/resource/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 #
   ruoyi-workflow:
     image: ruoyi/ruoyi-workflow:2.2.0
@@ -283,11 +283,11 @@ services:
       - "9205:9205"
     volumes:
       # 配置文件
-      - /docker/ruoyi-workflow/logs/:/ruoyi/workflow/logs
+      - ./docker/ruoyi-workflow/logs/:/ruoyi/workflow/logs
       # skywalking 探针
-      - /docker/skywalking/agent/:/ruoyi/skywalking/agent
+      - ./docker/skywalking/agent/:/ruoyi/skywalking/agent
     privileged: true
-    network_mode: "host"
+    network_mode: "microservices"
 
 
 #################################################################################################
@@ -310,7 +310,7 @@ services:
 #      - /home/docker/docker/elk/elasticsearch/plugins:/usr/share/elasticsearch/plugins
 #      - /home/docker/docker/elk/elasticsearch/data:/usr/share/elasticsearch/data
 #      - /home/docker/docker/elk/elasticsearch/logs:/usr/share/elasticsearch/logs
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  kibana:
 #    image: kibana:7.17.6
@@ -327,7 +327,7 @@ services:
 #      # SERVER_PUBLICBASEURL: https://kibana.cloud.com
 #    volumes:
 #      - /home/docker/docker/elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  logstash:
 #    image: logstash:7.17.6
@@ -339,7 +339,7 @@ services:
 #      - /home/docker/docker/elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
 #    depends_on:
 #      - elasticsearch
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  rmqnamesrv:
 #    image: apache/rocketmq:5.2.0
@@ -351,7 +351,7 @@ services:
 #    command: sh mqnamesrv
 #    volumes:
 #      - /home/docker/docker/rocketmq/namesrv/logs:/home/rocketmq/logs/rocketmqlogs
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  rmqbroker1:
 #    image: apache/rocketmq:5.2.0
@@ -369,7 +369,7 @@ services:
 #      - /home/docker/docker/rocketmq/broker1/conf/broker.conf:/home/rocketmq/rocketmq-5.2.0/conf/broker.conf
 #      - /home/docker/docker/rocketmq/broker1/logs:/home/rocketmq/logs/rocketmqlogs
 #      - /home/docker/docker/rocketmq/broker1/store:/home/rocketmq/store
-#    network_mode: "host"
+#    network_mode: "microservices"
 #
 #  rmqconsole:
 #    image: styletang/rocketmq-console-ng
@@ -380,7 +380,7 @@ services:
 #      JAVA_OPTS: -Dserver.port=19876 -Drocketmq.namesrv.addr=127.0.0.1:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false
 #    depends_on:
 #      - rmqnamesrv
-#    network_mode: "host"
+#    network_mode: "microservices"
 #
 #  rabbitmq:
 #    image: rabbitmq:3.13.3
@@ -396,7 +396,7 @@ services:
 #    volumes:
 #      - /home/docker/docker/rabbitmq/log:/var/log/rabbitmq
 #      - /home/docker/docker/rabbitmq/data:/var/lib/rabbitmq
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  zookeeper:
 #    image: 'bitnami/zookeeper:3.8.0'
@@ -412,7 +412,7 @@ services:
 #      ZOO_ENABLE_ADMIN_SERVER: "no"
 #      # 自带控制台的端口
 #      ZOO_ADMIN_SERVER_PORT_NUMBER: 8080
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  kafka:
 #    image: 'bitnami/kafka:3.6.2'
@@ -433,7 +433,7 @@ services:
 #      - /home/docker/docker/kafka/data:/bitnami/kafka/data
 #    depends_on:
 #      - zookeeper
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  kafka-manager:
 #    image: sheepkiller/kafka-manager:latest
@@ -448,7 +448,7 @@ services:
 #      KM_ARGS: -Dhttp.port=19092
 #    depends_on:
 #      - kafka
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  sky-oap:
 #    image: apache/skywalking-oap-server:9.3.0
@@ -465,7 +465,7 @@ services:
 #      SW_STORAGE: elasticsearch
 #      SW_STORAGE_ES_CLUSTER_NODES: 127.0.0.1:9200
 #      TZ: Asia/Shanghai
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  sky-ui:
 #    image: apache/skywalking-ui:9.3.0
@@ -478,7 +478,7 @@ services:
 #      TZ: Asia/Shanghai
 #    depends_on:
 #      - sky-oap
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  prometheus:
 #    image: prom/prometheus:v2.40.1
@@ -487,7 +487,7 @@ services:
 #      - "9090:9090"
 #    volumes:
 #      - /home/docker/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  grafana:
 #    image: grafana/grafana:9.2.4
@@ -503,7 +503,7 @@ services:
 #    volumes:
 #      - /home/docker/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
 #      - /home/docker/docker/grafana:/var/lib/grafana
-#    network_mode: "host"
+#    network_mode: "microservices"
 
 #  shardingproxy:
 #    image: apache/shardingsphere-proxy:5.4.0
@@ -516,4 +516,4 @@ services:
 #      - /home/docker/docker/shardingproxy/ext-lib:/opt/shardingsphere-proxy/ext-lib
 #    environment:
 #      - JVM_OPTS="-Djava.awt.headless=true"
-#    network_mode: "host"
+#    network_mode: "microservices"

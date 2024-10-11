@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="docker[nacos, minio, mysql, nginx-web, redis, ruoyi-auth, ruoyi-gateway, ruoyi-gen, ruoyi-job, ruoyi-monitor, ruoyi-resource, ruoyi-snailjob-server, ruoyi-system, ruoyi-workflow, seata-server, sentinel]: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="docker-desktop-linux">
+  <configuration default="false" name="microservice-docker[nacos, minio, mysql, nginx-web, redis, ruoyi-auth, ruoyi-gateway, ruoyi-gen, ruoyi-job, ruoyi-monitor, ruoyi-resource, ruoyi-snailjob-server, ruoyi-system, ruoyi-workflow, seata-server, sentinel]: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" server-name="docker-desktop-linux">
     <deployment type="docker-compose.yml">
       <settings>
         <option name="envFilePath" value="" />
@@ -23,7 +23,7 @@
             <option value="sentinel" />
           </list>
         </option>
-        <option name="sourceFilePath" value="docker/docker-compose.yml" />
+        <option name="sourceFilePath" value="microservice-docker/docker-compose.yml" />
         <option name="upDetach" value="false" />
       </settings>
     </deployment>

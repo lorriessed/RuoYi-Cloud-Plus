@@ -1,7 +1,7 @@
 services:
-  mysql:
+  microservices-mysql:
     image: mysql:8.0.31
-    container_name: Microservices-mysql
+    container_name: microservices-mysql
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -26,9 +26,9 @@ services:
     privileged: true
     network_mode: "microservices"
 
-  nacos:
+  microservices-nacos:
     image: nacos/nacos-server
-    container_name: Microservices-nacos
+    container_name: microservices-nacos
     ports:
       - "8848:8848"
       - "9848:9848"
@@ -43,9 +43,9 @@ services:
       - ./nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
     network_mode: "microservices"
 
-  redis:
+  microservices-redis:
     image: redis:6.2.7
-    container_name: Microservices-redis
+    container_name: microservices-redis
     ports:
       - "63799:6379"
     environment:
@@ -60,9 +60,9 @@ services:
     privileged: true
     network_mode: "microservices"
 
-  minio:
+  microservices-minio:
     image: minio/minio:RELEASE.2023-03-24T21-41-23Z
-    container_name: Microservices-minio
+    container_name: microservices-minio
     ports:
       # api 端口
       - "9000:9000"
@@ -93,9 +93,9 @@ services:
     privileged: true
     network_mode: "microservices"
 
-  seata-server:
+  microservices-seata-server:
     image: ruoyi/ruoyi-seata-server:2.2.0
-    container_name: Microservices-seata-server
+    container_name: microservices-seata-server
     ports:
       - "7091:7091"
       - "8091:8091"
@@ -111,9 +111,9 @@ services:
     privileged: true
     network_mode: "microservices"
 
-  nginx-web:
+  microservices-nginx-web:
     image: nginx:1.22.1
-    container_name: Microservices-nginx-web
+    container_name: microservices-nginx-web
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -132,9 +132,9 @@ services:
     privileged: true
     network_mode: "microservices"
 
-  sentinel:
+  microservices-sentinel:
     image: ruoyi/ruoyi-sentinel-dashboard:2.2.0
-    container_name: Microservices-sentinel
+    container_name: microservices-sentinel
     environment:
       TZ: Asia/Shanghai
     ports:
@@ -149,7 +149,7 @@ services:
 
 #  ruoyi-monitor:
 #    image: ruoyi/ruoyi-monitor:2.2.0
-#    container_name: Microservices-ruoyi-monitor
+#    container_name: microservices-ruoyi-monitor
 #    environment:
 #      # 时区上海
 #      TZ: Asia/Shanghai
@@ -163,9 +163,9 @@ services:
 #    privileged: true
 #    network_mode: "microservices"
 
-  ruoyi-snailjob-server:
+  microservices-ruoyi-snailjob-server:
     image: ruoyi/ruoyi-snailjob-server:2.2.0
-    container_name: Microservices-ruoyi-snailjob-server
+    container_name: microservices-ruoyi-snailjob-server
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -177,9 +177,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-gateway:
+  microservices-ruoyi-gateway:
     image: ruoyi/ruoyi-gateway:2.2.0
-    container_name: Microservices-ruoyi-gateway
+    container_name: microservices-ruoyi-gateway
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -193,9 +193,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-auth:
+  microservices-ruoyi-auth:
     image: ruoyi/ruoyi-auth:2.2.0
-    container_name: Microservices-ruoyi-auth
+    container_name: microservices-ruoyi-auth
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -209,9 +209,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-system:
+  microservices-ruoyi-system:
     image: ruoyi/ruoyi-system:2.2.0
-    container_name: Microservices-ruoyi-system
+    container_name: microservices-ruoyi-system
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -225,9 +225,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-gen:
+  microservices-ruoyi-gen:
     image: ruoyi/ruoyi-gen:2.2.0
-    container_name: Microservices-ruoyi-gen
+    container_name: microservices-ruoyi-gen
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -241,9 +241,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-job:
+  microservices-ruoyi-job:
     image: ruoyi/ruoyi-job:2.2.0
-    container_name: Microservices-ruoyi-job
+    container_name: microservices-ruoyi-job
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -257,9 +257,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-resource:
+  microservices-ruoyi-resource:
     image: ruoyi/ruoyi-resource:2.2.0
-    container_name: Microservices-ruoyi-resource
+    container_name: microservices-ruoyi-resource
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -273,9 +273,9 @@ services:
     privileged: true
     network_mode: "microservices"
 #
-  ruoyi-workflow:
+  microservices-ruoyi-workflow:
     image: ruoyi/ruoyi-workflow:2.2.0
-    container_name: Microservices-ruoyi-workflow
+    container_name: microservices-ruoyi-workflow
     environment:
       # 时区上海
       TZ: Asia/Shanghai
@@ -400,7 +400,7 @@ services:
 
 #  zookeeper:
 #    image: 'bitnami/zookeeper:3.8.0'
-#    container_name: Microservices-zookeeper
+#    container_name: microservices-zookeeper
 #    ports:
 #      - "2181:2181"
 #    environment:
@@ -416,7 +416,7 @@ services:
 
 #  kafka:
 #    image: 'bitnami/kafka:3.6.2'
-#    container_name: Microservices-kafka
+#    container_name: microservices-kafka
 #    ports:
 #      - "9092:9092"
 #    environment:
@@ -437,7 +437,7 @@ services:
 
 #  kafka-manager:
 #    image: sheepkiller/kafka-manager:latest
-#    container_name: Microservices-kafka-manager
+#    container_name: microservices-kafka-manager
 #    ports:
 #      - "19092:19092"
 #    environment:
@@ -452,7 +452,7 @@ services:
 
 #  sky-oap:
 #    image: apache/skywalking-oap-server:9.3.0
-#    container_name: Microservices-sky-oap
+#    container_name: microservices-sky-oap
 #    ports:
 #      - "11800:11800"
 #      - "12800:12800"
@@ -469,7 +469,7 @@ services:
 
 #  sky-ui:
 #    image: apache/skywalking-ui:9.3.0
-#    container_name: Microservices-sky-ui
+#    container_name: microservices-sky-ui
 #    ports:
 #      - "18080:18080"
 #    environment:
@@ -491,7 +491,7 @@ services:
 
 #  grafana:
 #    image: grafana/grafana:9.2.4
-#    container_name: Microservices-grafana
+#    container_name: microservices-grafana
 #    environment:
 #      TZ: Asia/Shanghai
 #      # 服务地址 用于指定外网ip或域名
@@ -507,7 +507,7 @@ services:
 
 #  shardingproxy:
 #    image: apache/shardingsphere-proxy:5.4.0
-#    container_name: Microservices-shardingsphere-proxy
+#    container_name: microservices-shardingsphere-proxy
 #    command: server /data
 #    ports:
 #      - "3307:3307"

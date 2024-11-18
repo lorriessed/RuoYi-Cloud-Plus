@@ -35,13 +35,16 @@ services:
       - "9849:9849"
     environment:
       TZ: Asia/Shanghai
-      JAVA_OPTS: "-Xms256m -Xmx512m"
+#      JAVA_OPTS: "-Xms256m -Xmx512m"
+      JAVA_OPTS: >
+        -Xms256m -Xmx512m
     volumes:
       # 日志目录 注意集群模式下 日志目录不能一致 需要区分例如 nacos1 nacos2
       - ./nacos/logs/:/root/nacos/logs
       # 集群配置文件 集群所有nacos都必须使用此文件
-      - ./nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
+#      - ./nacos/conf/cluster.conf:/root/nacos/conf/cluster.conf
     network_mode: "microservices"
+
 
   microservices-redis:
     image: redis:6.2.7
@@ -53,9 +56,9 @@ services:
       TZ: Asia/Shanghai
     volumes:
       # 配置文件
-      - ../redis/conf:/redis/config
+      - ./redis/conf:/redis/config
       # 数据文件
-      - /home/docker/docker/redis/data/:/redis/data/
+      - ./redis/data/:/redis/data/
     command: "redis-server /redis/config/redis.conf"
     privileged: true
     network_mode: "microservices"
